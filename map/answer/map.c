@@ -23,13 +23,18 @@
 #define P_MSG_Y (MSG_Y_START + 5)
 
 
+#define KEY_UP 65
+#define KEY_DOWN 66
+#define KEY_LEFT 68
+#define KEY_RIGHT 67
+
 typedef struct unitP{
 	int x;
 	int y;
 }unitP;
 
 
-unitP I;
+
 void gotoxy(int,int);
 
 void cursorReset(){
@@ -83,7 +88,6 @@ void clear(){
 		}
 	}
 }
-
 
 void makeMsgBox(){
 
@@ -139,9 +143,12 @@ void makeBoundary(){
 
 }
 
+
+unitP I;
 void printI(){
 	gotoxy(I.x,I.y);
 	printf("*");
+	printXY(I.x, I.y);
 	fflush(stdout);
 }
 void clearI(){
@@ -149,16 +156,16 @@ void clearI(){
 	printf(" ");
 	fflush(stdout);
 }
-void setPostionI(int x, int y){
+
+
+void setPositionI(int x, int y){
 	I.x =x;
 	I.y =y;
 	printI();
-	fflush(stdout);
 }
 
 void movePositionI(int x, int y){
 	clearI();
-//	clearGameMap();
 	I.x = I.x + x;
 	I.y = I.y + (-y);
 	printI();
@@ -196,34 +203,43 @@ int getch()
 	return c;
 }
 
+void moveI(int key){
+	
+	switch(key){
 
+		case KEY_UP : 
+			move_UP();
+			break;
+		case KEY_DOWN : 
+			move_DOWN();
+			break;
+		case KEY_LEFT : 
+			move_L();
+			break;
+		case KEY_RIGHT : 
+			move_R();
+			break;
+
+		default :
+			break;
+	}
+
+}
 int main(){
-	setPostionI(MAP_MAX_X / 2, MAP_MAX_Y / 2);
+
 	clear();
 	makeBoundary();
 	makeMsgBox();
-	printI();
 	printGameMsg("피카추가 등장");
-	printXY(34234,23432);
+	setPositionI(MAP_MAX_X/2 ,MAP_MAX_Y/2 );	
 
-	setPostionI(MAP_MAX_X / 2, MAP_MAX_Y / 2);
+	while(1){
 
-	while(1) {
 		moveI(getch());
+
 	}
 
 	cursorReset();
-	//sleep(1);
-	//gotoxy(0, MAP_MAX_Y + 5);
-	//sleep(1);
-	//movePositionI(1, 0);
-	//sleep(1);
-	//movePositionI(1, 0);
-	//sleep(1);
-	//movePositionI(0, -1);
-	//sleep(1);
-	//move_DOWN();
 
-	//gotoxy(0, MAP_MAX_Y + 5);
 	return 1;
 }
